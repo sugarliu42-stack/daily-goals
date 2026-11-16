@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<title>每日目標</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="每日目標">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<meta name="theme-color" content="#d4bda8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap">
+<style>
+:root{
+  color-scheme:light;--bg:#d4bda8;--bg2:#e6d8c8;--card:#f1e8dd;--ink:#5a4a40;--sub:#8c7a6b;--accent:#b07a72;--line:#dccab8;--ok:#a1ae96;--shadow:rgba(110,85,65,.2);
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:linear-gradient(180deg,#e3d2c0 0,#d4bda8 260px,#d4bda8) fixed;color:var(--ink);font-family:"M PLUS Rounded 1c","Varela Round","Hiragino Maru Gothic ProN","jf-openhuninn","PingFang TC","Microsoft JhengHei",sans-serif;min-height:100vh}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+input{font:inherit;color:var(--ink)}
+.wrap{max-width:480px;margin:0 auto;padding:18px 16px 40px}
+.card{background:var(--card);border-radius:26px;border:2px solid #e4d5c4;box-shadow:0 8px 20px var(--shadow);padding:18px;margin-bottom:14px}
+.btn{background:linear-gradient(135deg,#c79a86,#b07a72);color:#fff;border-radius:999px;padding:12px 22px;font-weight:700;box-shadow:0 4px 10px rgba(150,100,90,.3)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:var(--bg2);color:var(--ink)}
+input[type=text]{width:100%;border:2px solid var(--line);background:var(--bg2);border-radius:999px;padding:12px 18px;outline:none}
+input[type=text]:focus{border-color:var(--accent)}
+.login{text-align:center;padding-top:12vh}
+.login h1{margin:0 0 6px;font-size:30px}
+.login p{color:var(--sub);margin:0 0 22px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}
+.chip{background:var(--card);border-radius:999px;padding:8px 16px;box-shadow:0 2px 8px var(--shadow)}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:8px}
+.hi{display:flex;align-items:center;gap:8px;font-weight:700;font-size:19px;color:#8a5f58}
+.av{width:44px;height:44px;border-radius:50%;background:var(--bg2);font-size:26px;display:grid;place-items:center;box-shadow:0 2px 8px var(--shadow)}
+@font-face{font-family:"紅豆奶霜體";src:local("紅豆奶霜體"),url("fonts/hongdou-naishuang.woff2") format("woff2"),url("fonts/hongdou-naishuang.ttf") format("truetype");font-display:swap}
+.nm,.nmin{font-family:"紅豆奶霜體","M PLUS Rounded 1c","Varela Round","Hiragino Maru Gothic ProN","PingFang TC",sans-serif}
+.nm{font-size:1.15em}
+.small{font-size:13px;color:var(--sub)}
+.pill{background:var(--card);border:2px solid #e4d5c4;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:500;box-shadow:0 2px 8px var(--shadow)}
+.month{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.month b{font-size:20px}
+.nav{width:38px;height:38px;border-radius:50%;background:var(--bg2);font-size:18px}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.wd{text-align:center;font-size:12px;color:var(--sub);padding:4px 0}
+.day{aspect-ratio:1/1.1;border-radius:14px;background:var(--bg2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-weight:500}
+.day.empty{background:none}
+.day.today{outline:2px solid var(--accent)}
+.day.full{background:linear-gradient(135deg,#c79a86,#b07a72);color:#fff;box-shadow:0 3px 8px rgba(150,100,90,.3)}
+.bar{width:60%;height:4px;border-radius:4px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#a9b59d,#8d9fa8);border-radius:4px}
+.day.full .bar{background:rgba(255,255,255,.4)}
+.day.full .bar i{background:#fff}
+.day.none .bar{visibility:hidden}
+.card h3{margin:0 0 10px;font-size:16px}
+.srow{padding:9px 0;border-bottom:1px dashed var(--line)}
+.srow:last-child{border:0}
+.srow .l{display:flex;justify-content:space-between;gap:8px;font-size:15px}
+.srow .bar{width:100%;margin-top:6px;height:6px}
+.ov{position:fixed;inset:0;background:rgba(40,28,20,.45);display:none;align-items:flex-end;justify-content:center;z-index:20}
+.ov.on{display:flex}
+.sheet{width:100%;max-width:480px;max-height:88%;overflow:auto;background:var(--card);border-radius:28px 28px 0 0;padding:20px 18px calc(24px + env(safe-area-inset-bottom,0px))}
+.sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.sh b{font-size:18px}
+.x{width:34px;height:34px;border-radius:50%;background:var(--bg2)}
+.item{display:flex;align-items:center;gap:10px;padding:12px 4px;border-bottom:1px dashed var(--line)}
+.box{width:28px;height:28px;border-radius:50%;border:2px solid var(--accent);display:grid;place-items:center;color:#fff;flex:none}
+.item.done .box{background:var(--ok);border-color:var(--ok)}
+.item.done .t{text-decoration:line-through;color:var(--sub)}
+.item.other{opacity:.6}
+.item.other .box{border-style:dashed}
+.ic{font-size:22px;flex:none}
+.t{flex:1;word-break:break-all}
+.tag{display:block;font-size:12px;color:var(--sub)}
+.mini{width:32px;height:32px;border-radius:50%;background:var(--bg2);flex:none}
+.hint{color:var(--sub);font-size:13px;text-align:center;padding:14px 0}
+.form{margin-top:16px;background:var(--bg2);border-radius:20px;padding:14px}
+.form h4{margin:0 0 10px;font-size:15px}
+.row{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.opt{min-width:38px;height:38px;border-radius:12px;background:var(--card);padding:0 10px;border:2px solid transparent}
+.opt.on{border-color:var(--accent);background:var(--accent);color:#fff}
+.em{font-size:20px;padding:0}
+.lbl{font-size:13px;color:var(--sub);margin-top:12px}
+.chk{display:flex;gap:8px;align-items:center;font-size:14px;margin-top:10px}
+.chk input{width:18px;height:18px;accent-color:var(--accent)}
+.acts{display:flex;gap:8px;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div class="ov" id="ov"><div class="sheet" id="sheet"></div></div>
+<script>
+const KEY='daily_goals_v1';
+let S;
+try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+if(!S||!S.users)S={users:{},current:null};
+Object.values(S.users).forEach(u=>u.goals.forEach(g=>{if(!g.icon)g.icon='⭐';if(g.days===undefined)g.days=null;if(g.text==='帶小孩出門')g.text='親子日'}));
+Object.values(S.users).forEach(u=>{if(!u.avatar)u.avatar='🐻'});
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const dk=(y,m,d)=>y+'-'+pad(m+1)+'-'+pad(d);
+const dkd=t=>dk(t.getFullYear(),t.getMonth(),t.getDate());
+const now=new Date();
+let vy=now.getFullYear(),vm=now.getMonth(),sel=null,view='day',form=null,pickAv='🐰';
+const AVS=['🐰','🐻','🐱','🐶','🦊','🐼','🐨','🐹','🦄','🐥','🌸','🍓','🍑','🌿','🍀','☁️'];
+const U=()=>S.users[S.current];
+const ORDER=[1,2,3,4,5,6,0],LBL={1:'一',2:'二',3:'三',4:'四',5:'五',6:'六',0:'日'};
+const ICONS=['⭐','🎬','👶','💧','🏃','📖','🧘','🥗','😴','✍️','💪','🎵','🧹','💰'];
+const ticked=(g,k)=>(U().done[k]||[]).includes(g.id);
+const sched=(g,t)=>!g.days||g.days.includes(t.getDay());
+// 回傳達成這項目的日期(沒達成回傳 null)；擇一型項目以「週一到週日」為一週
+function satBy(g,t){
+  const k=dkd(t);
+  if(!g.pick)return ticked(g,k)?k:null;
+  const m=new Date(t.getFullYear(),t.getMonth(),t.getDate()-((t.getDay()+6)%7));
+  for(let i=0;i<7;i++){const x=new Date(m.getFullYear(),m.getMonth(),m.getDate()+i);
+    if(g.days.includes(x.getDay())&&ticked(g,dkd(x)))return dkd(x)}
+  return null;
+}
+const desc=g=>!g.days?'每天':'週'+ORDER.filter(d=>g.days.includes(d)).map(d=>LBL[d]).join('、')+(g.pick?'（擇一天完成）':'');
+
+function monthStats(){
+  const days=new Date(vy,vm+1,0).getDate();
+  return U().goals.map(g=>{
+    let tot=0,done=0;const weeks={};
+    for(let d=1;d<=days;d++){
+      const t=new Date(vy,vm,d);if(!sched(g,t))continue;
+      if(g.pick){const wk=dkd(new Date(vy,vm,d-((t.getDay()+6)%7)));
+        if(!(wk in weeks))weeks[wk]=!!satBy(g,t)}
+      else{tot++;if(ticked(g,dkd(t)))done++}
+    }
+    if(g.pick){tot=Object.keys(weeks).length;done=Object.values(weeks).filter(Boolean).length}
+    return{g,tot,done,unit:g.pick?'週':'天'};
+  });
+}
+
+function render(){
+  const app=document.getElementById('app');
+  if(!S.current||!S.users[S.current]){
+    const names=Object.keys(S.users);
+    app.innerHTML=`<div class="login"><h1>每日目標</h1><p>先告訴我你的名字吧</p>
+    <div class="lbl" style="margin:0">選一個代表你的小圖案</div><div class="row" id="avr" style="justify-content:center">${AVS.map(a=>`<button class="opt em${a===pickAv?' on':''}" data-a="${a}">${a}</button>`).join('')}</div>
+    <input type="text" class="nmin" id="nm" maxlength="12" placeholder="輸入你的名字" autocomplete="off">
+    <div style="margin-top:14px"><button class="btn" id="go">開始</button></div>
+    ${names.length?`<div class="small" style="margin-top:26px">或選擇已有的檔案</div><div class="chips">${names.map(n=>`<button class="chip" data-n="${esc(n)}">${esc(S.users[n].avatar)} <span class="nm">${esc(n)}</span></button>`).join('')}</div>`:''}</div>`;
+    const go=()=>{const v=document.getElementById('nm').value.trim();if(!v)return;
+      if(!S.users[v])S.users[v]={goals:[],done:{},avatar:pickAv};S.current=v;save();render()};
+    document.getElementById('go').onclick=go;
+    document.querySelectorAll('#avr [data-a]').forEach(b=>b.onclick=()=>{pickAv=b.dataset.a;document.querySelectorAll('#avr .opt').forEach(x=>x.classList.toggle('on',x===b))});
+    document.getElementById('nm').onkeydown=e=>{if(e.key==='Enter')go()};
+    app.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{S.current=b.dataset.n;save();render()});
+    return;
+  }
+  const u=U();
+  const first=(new Date(vy,vm,1).getDay()+6)%7,days=new Date(vy,vm+1,0).getDate();
+  const tk=dkd(now);
+  let cells='';
+  for(let i=0;i<first;i++)cells+='<div class="day empty"></div>';
+  for(let d=1;d<=days;d++){
+    const t=new Date(vy,vm,d),k=dkd(t);
+    const list=u.goals.filter(g=>sched(g,t)),n=list.filter(g=>satBy(g,t)).length,full=list.length>0&&n===list.length;
+    cells+=`<button class="day${full?' full':''}${k===tk?' today':''}${list.length?'':' none'}" data-k="${k}"><span>${d}</span><span class="bar"><i style="width:${list.length?n/list.length*100:0}%"></i></span></button>`;
+  }
+  const st=monthStats();
+  app.innerHTML=`<div class="top"><div><div class="hi"><button class="av" id="av">${esc(u.avatar)}</button><span><span class="nm">${esc(S.current)}</span> 的目標</span></div><div class="small">點日期打勾</div></div>
+    <div style="display:flex;gap:6px"><button class="pill" id="mg">管理項目</button><button class="pill" id="sw">換人</button></div></div>
+  <div class="card"><div class="month"><button class="nav" id="pv">‹</button><b>${vy} 年 ${vm+1} 月</b><button class="nav" id="nx">›</button></div>
+  <div class="grid">${ORDER.map(d=>`<div class="wd">${LBL[d]}</div>`).join('')}${cells}</div></div>
+  <div class="card"><h3>${vm+1} 月各項目達成</h3>${st.length?st.map(s=>`<div class="srow"><div class="l"><span>${esc(s.g.icon)} ${esc(s.g.text)}</span><b>${s.done} / ${s.tot} ${s.unit}</b></div><div class="bar"><i style="width:${s.tot?s.done/s.tot*100:0}%"></i></div></div>`).join(''):'<div class="hint">還沒有項目，點右上「管理項目」新增</div>'}</div>`;
+  document.getElementById('sw').onclick=()=>{S.current=null;save();render()};
+  document.getElementById('mg').onclick=()=>{sel=null;openManage()};
+  document.getElementById('av').onclick=()=>{sel=null;view='avatar';draw();show()};
+  document.getElementById('pv').onclick=()=>{vm--;if(vm<0){vm=11;vy--}render()};
+  document.getElementById('nx').onclick=()=>{vm++;if(vm>11){vm=0;vy++}render()};
+  app.querySelectorAll('.day[data-k]').forEach(b=>b.onclick=()=>{sel=b.dataset.k;view='day';draw();show()});
+}
+const show=()=>document.getElementById('ov').classList.add('on');
+function closeSheet(){sel=null;document.getElementById('ov').classList.remove('on');render()}
+function openManage(){view='manage';form=null;draw();show()}
+const blank=()=>({id:null,icon:'⭐',text:'',days:[],daily:true,pick:false});
+
+function draw(){view==='day'?drawDay():view==='avatar'?drawAvatar():drawManage()}
+function drawAvatar(){
+  const u=U(),sh=document.getElementById('sheet');
+  sh.innerHTML=`<div class="sh"><b>選擇你的小圖案</b><button class="x" id="cl">✕</button></div>
+  <div class="row">${AVS.map(a=>`<button class="opt em${a===u.avatar?' on':''}" data-a="${a}">${a}</button>`).join('')}</div>
+  <div class="lbl">或輸入任何表情符號</div><input type="text" id="ai" maxlength="4" placeholder="自訂圖案">
+  <div class="acts"><button class="btn" id="as" style="width:100%">完成</button></div>`;
+  document.getElementById('cl').onclick=closeSheet;document.getElementById('as').onclick=closeSheet;
+  sh.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{u.avatar=b.dataset.a;save();drawAvatar()});
+  document.getElementById('ai').oninput=e=>{const v=e.target.value.trim();if(v){u.avatar=v;save()}};
+}
+function drawDay(){
+  const u=U(),[y,m,d]=sel.split('-').map(Number),t=new Date(y,m-1,d);
+  const list=u.goals.filter(g=>sched(g,t));
+  const sh=document.getElementById('sheet');
+  sh.innerHTML=`<div class="sh"><b>${m} 月 ${d} 日 ・ 週${LBL[t.getDay()]}</b><button class="x" id="cl">✕</button></div>
+  ${list.length?list.map(g=>{const s=satBy(g,t),own=ticked(g,sel),other=s&&!own;
+    return `<div class="item${own?' done':''}${other?' other':''}"><button class="box" data-t="${g.id}">${own?'✓':''}</button><span class="ic">${esc(g.icon)}</span><span class="t">${esc(g.text)}${other?`<span class="tag">本週已在週${LBL[new Date(s.split('-')[0],s.split('-')[1]-1,s.split('-')[2]).getDay()]}完成 ✓</span>`:''}</span></div>`}).join(''):'<div class="hint">這天沒有安排項目 ☕</div>'}
+  <div class="acts"><button class="btn ghost" id="mg2" style="width:100%">新增 / 管理項目</button></div>`;
+  document.getElementById('cl').onclick=closeSheet;
+  document.getElementById('mg2').onclick=openManage;
+  sh.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{
+    const a=u.done[sel]||(u.done[sel]=[]),i=a.indexOf(b.dataset.t);
+    i<0?a.push(b.dataset.t):a.splice(i,1);save();drawDay()});
+}
+function drawManage(){
+  const u=U(),sh=document.getElementById('sheet');
+  const f=form;
+  sh.innerHTML=`<div class="sh"><b>管理項目</b><button class="x" id="cl">✕</button></div>
+  ${u.goals.length?u.goals.map(g=>`<div class="item"><span class="ic">${esc(g.icon)}</span><span class="t">${esc(g.text)}<span class="tag">${desc(g)}</span></span><button class="mini" data-e="${g.id}">✎</button><button class="mini" data-d="${g.id}">✕</button></div>`).join(''):'<div class="hint">還沒有項目</div>'}
+  ${f?`<div class="form"><h4>${f.id?'編輯項目':'新增項目'}</h4>
+    <input type="text" id="ft" maxlength="30" placeholder="項目名稱，例如：發佈影片" value="${esc(f.text)}">
+    <div class="lbl">圖示（可點選或自己輸入表情符號）</div>
+    <div class="row">${ICONS.map(i=>`<button class="opt em${f.icon===i?' on':''}" data-i="${i}">${i}</button>`).join('')}</div>
+    <input type="text" id="fi" maxlength="4" placeholder="自訂圖示" value="${ICONS.includes(f.icon)?'':esc(f.icon)}">
+    <div class="lbl">哪些日子要做？</div>
+    <div class="row"><button class="opt${f.daily?' on':''}" id="fd">每天</button>${ORDER.map(d=>`<button class="opt${!f.daily&&f.days.includes(d)?' on':''}" data-w="${d}">週${LBL[d]}</button>`).join('')}</div>
+    ${!f.daily&&f.days.length>1?`<label class="chk"><input type="checkbox" id="fp" ${f.pick?'checked':''}>這幾天擇一天完成就好（每週一次）</label>`:''}
+    <div class="acts"><button class="btn" id="fs">儲存</button><button class="btn ghost" id="fc">取消</button></div></div>`
+  :`<div class="acts"><button class="btn" id="nw" style="width:100%">＋ 新增項目</button></div>`}
+  ${sel?'<div class="acts"><button class="btn ghost" id="bk" style="width:100%">← 回到這天</button></div>':''}`;
+  document.getElementById('cl').onclick=closeSheet;
+  const bk=document.getElementById('bk');if(bk)bk.onclick=()=>{view='day';draw()};
+  const nw=document.getElementById('nw');if(nw)nw.onclick=()=>{form=blank();drawManage()};
+  sh.querySelectorAll('[data-e]').forEach(b=>b.onclick=()=>{const g=u.goals.find(x=>x.id===b.dataset.e);
+    form={id:g.id,icon:g.icon,text:g.text,days:g.days?[...g.days]:[],daily:!g.days,pick:!!g.pick};drawManage()});
+  sh.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{const g=u.goals.find(x=>x.id===b.dataset.d);
+    if(confirm('刪除「'+g.text+'」？所有日期都會移除這個項目')){u.goals=u.goals.filter(x=>x.id!==g.id);save();drawManage()}});
+  if(!f)return;
+  document.getElementById('ft').oninput=e=>{f.text=e.target.value};
+  document.getElementById('fi').oninput=e=>{const v=e.target.value.trim();if(v)f.icon=v};
+  sh.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{f.icon=b.dataset.i;drawManage()});
+  document.getElementById('fd').onclick=()=>{f.daily=true;f.pick=false;drawManage()};
+  sh.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{const w=+b.dataset.w;f.daily=false;
+    f.days=f.days.includes(w)?f.days.filter(x=>x!==w):[...f.days,w];if(f.days.length<2)f.pick=false;drawManage()});
+  const fp=document.getElementById('fp');if(fp)fp.onchange=e=>{f.pick=e.target.checked};
+  document.getElementById('fc').onclick=()=>{form=null;drawManage()};
+  document.getElementById('fs').onclick=()=>{
+    const text=f.text.trim();if(!text)return;
+    if(!f.daily&&!f.days.length){alert('請至少選一天');return}
+    const g={id:f.id||'g'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),text,icon:f.icon||'⭐',
+      days:f.daily?null:[...f.days],pick:!f.daily&&f.days.length>1&&f.pick};
+    const i=u.goals.findIndex(x=>x.id===g.id);i<0?u.goals.push(g):u.goals[i]=g;
+    save();form=null;drawManage()};
+}
+document.getElementById('ov').onclick=e=>{if(e.target.id==='ov')closeSheet()};
+render();
+</script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}</script>
+</body>
+</html>
