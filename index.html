@@ -11,7 +11,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="icon-192.png">
 <meta name="theme-color" content="#d4bda8">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=M+PLUS+Rounded+1c:wght@400;700&display=swap">
 <style>
 :root{
   color-scheme:light;--bg:#d4bda8;--bg2:#e6d8c8;--card:#f1e8dd;--ink:#5a4a40;--sub:#8c7a6b;--accent:#b07a72;--line:#dccab8;--ok:#a1ae96;--shadow:rgba(110,85,65,.2);
@@ -19,7 +19,7 @@
 }
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:linear-gradient(180deg,#e3d2c0 0,#d4bda8 260px,#d4bda8) fixed;color:var(--ink);font-family:"M PLUS Rounded 1c","Varela Round","Hiragino Maru Gothic ProN","jf-openhuninn","PingFang TC","Microsoft JhengHei",sans-serif;min-height:100vh}
+body{margin:0;background:linear-gradient(180deg,#e3d2c0 0,#d4bda8 260px,#d4bda8) fixed;color:var(--ink);font-family:"Huninn","M PLUS Rounded 1c","Varela Round","Hiragino Maru Gothic ProN","jf-openhuninn","PingFang TC","Microsoft JhengHei",sans-serif;min-height:100vh}
 button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
 input{font:inherit;color:var(--ink)}
 .wrap{max-width:480px;margin:0 auto;padding:18px 16px 40px}
@@ -38,8 +38,9 @@ input[type=text]:focus{border-color:var(--accent)}
 .hi{display:flex;align-items:center;gap:8px;font-weight:700;font-size:19px;color:#8a5f58}
 .av{width:44px;height:44px;border-radius:50%;background:var(--bg2);font-size:26px;display:grid;place-items:center;box-shadow:0 2px 8px var(--shadow)}
 @font-face{font-family:"紅豆奶霜體";src:local("紅豆奶霜體"),url("fonts/hongdou-naishuang.woff2") format("woff2"),url("fonts/hongdou-naishuang.ttf") format("truetype");font-display:swap}
-.nm,.nmin{font-family:"紅豆奶霜體","M PLUS Rounded 1c","Varela Round","Hiragino Maru Gothic ProN","PingFang TC",sans-serif}
-.nm{font-size:1.15em}
+@font-face{font-family:"粗線體";src:local("粗線體 等寬"),local("tsuhsianti Monospaced"),local("粗線體")}
+.nm,.nmin{font-family:"粗線體","紅豆奶霜體","Huninn","M PLUS Rounded 1c","Varela Round","Hiragino Maru Gothic ProN","PingFang TC",sans-serif}
+.nm{font-size:1.15em;-webkit-text-stroke:.5px currentColor}
 .small{font-size:13px;color:var(--sub)}
 .pill{background:var(--card);border:2px solid #e4d5c4;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:500;box-shadow:0 2px 8px var(--shadow)}
 .month{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
